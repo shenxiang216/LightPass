@@ -11,6 +11,7 @@
 
 * vue
 * vue-router
+* typescript
 * node.js
 * koa
 * mongodb
