@@ -1,9 +1,9 @@
 /*
  * @Author: Deep Lane
  * @Date: 2022-01-11 19:36:43
- * @LastEditors: Deep Lane
- * @LastEditTime: 2022-01-30 02:08:59
- * @Description: 
+ * @LastEditors: 赵亚鑫Deep Lane
+ * @LastEditTime: 2022-04-12 21:01:28
+ * @Description:
  */
 import * as Router from 'koa-router'
 import { File } from 'formidable'
@@ -27,7 +27,17 @@ router.post('/upload', async ctx => {
     key
   }
 })
-
+/**
+ * 判断文件是否存在
+ */
+router.post('/exist/:key', async ctx => {
+  const key = ctx.params.key
+  const exist = await fileService.find(key)
+  ctx.body = {
+    stat: 'OK',
+    key
+  }
+})
 /**
  * 根据key下载文件
  */

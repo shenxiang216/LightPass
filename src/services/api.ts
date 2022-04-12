@@ -1,8 +1,8 @@
 /*
  * @Author: Deep Lane
  * @Date: 2022-01-14 16:45:27
- * @LastEditors: Deep Lane
- * @LastEditTime: 2022-02-23 22:35:19
+ * @LastEditors: 赵亚鑫Deep Lane
+ * @LastEditTime: 2022-04-12 20:58:53
  * @Description: 
  */
 import * as request from "./request"
@@ -30,7 +30,14 @@ interface downloadFileRes extends BaseRes {
 export async function upload(file: FormData) {
   return request.post<uploadFileRes>("/api/file/upload", file)
 }
-
+/**
+ * 判断文件是否存在
+ * @param key 文件key
+ * @returns 
+ */
+ export async function exist(key: string) {
+  return request.post<BaseRes>("/api/file/exist/" + key)
+}
 /**
  * 下载文件
  * @param key 文件的key
@@ -38,5 +45,5 @@ export async function upload(file: FormData) {
  * @returns
  */
 export async function download(key: string) {
-  return request.getFile<any>("/api/file/download/" + key)
+  return request.getFile<BaseRes>("/api/file/download/" + key)
 }

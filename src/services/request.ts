@@ -1,8 +1,8 @@
 /*
  * @Author: Deep Lane
  * @Date: 2022-01-14 16:45:27
- * @LastEditors: Deep Lane
- * @LastEditTime: 2022-02-27 17:01:19
+ * @LastEditors: 赵亚鑫Deep Lane
+ * @LastEditTime: 2022-04-12 20:58:54
  * @Description:
  */
 async function request<T>(method: string, url: string, data?: any): Promise<T> {
@@ -46,14 +46,17 @@ async function requestFile<T>(method: string, url: string, data?: any) {
   }
   let res = await fetch(url, option)
   let blob: Blob = await res.blob()
-  var a = document.createElement("a")
-  var url = window.URL.createObjectURL(blob) // 获取 blob 本地文件连接 (blob 为纯二进制对象，不能够直接保存到磁盘上)
-  var filename = res.headers.get("Content-Disposition") as string
+  let a = document.createElement("a")
+  let resurl = window.URL.createObjectURL(blob) // 获取 blob 本地文件连接 (blob 为纯二进制对象，不能够直接保存到磁盘上)
+  let filename = res.headers.get("Content-Disposition") as string
   filename = decodeURIComponent(filename.split(";")[1].split("=")[1])
-  a.href = url
+  a.href = resurl
   a.download = filename
   a.click()
   window.URL.revokeObjectURL(url)
+  return {
+    stat: "OK",
+  } as unknown as T
 }
 export function getFile<T>(url: string) {
   return requestFile<T>("GET", url)

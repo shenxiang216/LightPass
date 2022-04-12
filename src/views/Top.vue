@@ -1,8 +1,8 @@
 <!--
  * @Author: Deep Lane
  * @Date: 2022-01-13 15:29:59
- * @LastEditors: Deep Lane
- * @LastEditTime: 2022-03-08 16:21:46
+ * @LastEditors: 赵亚鑫Deep Lane
+ * @LastEditTime: 2022-04-12 21:33:35
  * @Description: 
 -->
 <template>
@@ -10,7 +10,7 @@
     <div class="logo">
       <section class="frozen" data-heading="Frozen">Light|闪电速传</section>
     </div>
-     <van-button
+    <van-button
       @click="about"
       color="#d0eeff"
       class="about"
@@ -32,9 +32,9 @@
     <!-- 隐藏的input file -->
     <input
       type="file"
-      @input="uploadFile"
+      @change="uploadFile"
       ref="fileInput"
-      style="display: none"
+      style="opacity:0;"
     />
     <div class="btn">
       <div class="file" @click="clickUpload">上传文件</div>
@@ -50,12 +50,11 @@
     <!-- <div class="updown">
       上传区域
     </div> -->
-   
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue"
-import { upload, download } from "../services/api"
+import { upload, download, exist } from "../services/api"
 import Clipboard from "clipboard"
 import { Toast } from "vant"
 import { useRouter, useRoute } from "vue-router"
@@ -72,11 +71,14 @@ export default defineComponent({
       "上传的文件提取码为:ca7c04,访问light.mmyxyz,xyz提取文件,24h后自动删除,不保留任何个人资料,闪电速传——无需登录和注册,免费轻松快传轻文件 "
     )
     const clickUpload = () => {
+       console.log(1)
       if (fileInput.value) {
+        console.log(2)
         fileInput.value.click()
       }
     }
     const uploadFile = async (e: Event) => {
+     console.log(3)
       if (!CountStorage(new Date())) {
         Toast.fail("单日上传下载限制为10次,明日再试吧！")
         return
@@ -137,6 +139,11 @@ export default defineComponent({
       }
       if (key.value === "") {
         Toast.fail("请先输入提取码")
+        return
+      }
+      const res = await exist(key.value)
+      if (res.stat === "ERR_NOT_FOUND") {
+        Toast.fail("提取码错误或上传文件已过期！")
         return
       }
       await download(key.value)
@@ -311,8 +318,8 @@ export default defineComponent({
   text-decoration: none;
 }
 .about {
- position: absolute;
- top:70px;
- color:#1e88c7;
+  position: absolute;
+  top: 70px;
+  color: #1e88c7;
 }
 </style>
