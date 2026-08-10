@@ -6,7 +6,7 @@ import router from './router'
 import logger from './middlewares/logger'
 import * as db from './db'
 import { ReqStat } from './stats'
-import * as send from'koa-send' // 将静态文件转换成文件流，提供下载功能
+import * as send from 'koa-send' // 将静态文件转换成文件流，提供下载功能
 import * as path from 'path'
 import * as serve from 'koa-static'
 
